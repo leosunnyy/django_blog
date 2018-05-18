@@ -25,7 +25,11 @@ class IndexView(View):
         count_nums.save()
 
         for blog in all_blog:
-            blog.content = markdown.markdown(blog.content)
+            blog.content = markdown.markdown(blog.content, extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.toc',
+        ])
 
         # 分页
         try:
@@ -141,7 +145,11 @@ class BlogDetailView(View):
         all_comment = Comment.objects.filter(blog_id=blog_id)
         comment_nums = all_comment.count()
         # 将博客内容用markdown显示出来
-        blog.content = markdown.markdown(blog.content)
+        blog.content = markdown.markdown(blog.content, extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+            'markdown.extensions.toc',
+        ])
         # 实现博客上一篇与下一篇功能
         has_prev = False
         has_next = False
